@@ -10,11 +10,17 @@ int main(int argc, char* argv[]) {
     if (argc < 2) {
         // Tell the user how to run the program
         std::cerr << "Usage: " << argv[0] << " <FILE NAME>" << std::endl;
-        std::cerr << "64 bits" << std::endl;
+        std::cerr << "    or " << argv[0] << " <FILE NAME> <delimiter>" << std::endl;
+        std::cerr << "64 bits OS required" << std::endl;
         return 1;
     }
     
     FastReader fastReader;   
+    
+    if (argc == 3) {
+		fastReader.setDelimiter(argv[2]);
+		std::cout << "Set delimiter between values to : value1" << argv[2] << "value2" << std::endl;
+    }
     
 //     uintmax_t n_line = fastReader.read_file(argv[1]);
 	fastReader.read_file(argv[1]);

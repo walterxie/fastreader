@@ -4,13 +4,17 @@ string FastReader::getFName(void) {
     return string(fname);
 }
 
+void FastReader::setDelimiter(const char* deli) {
+    this->delimiter=string(deli);
+}
+
 //   
 void FastReader::assign_line_stat_map(const char* start, const char* end) {
 	char* ps = const_cast<char*>(start);
-	char* pch = strchr(ps,'\t');
+	char* pch = strchr(ps, atoi( delimiter.c_str() ));
 	string name = string(ps, pch);
 	ps = pch;
-	pch = strchr(pch+1,'\t');
+	pch = strchr(pch+1, atoi( delimiter.c_str() ));
 	int p = atoi( ps );
 
 	auto it = line_stat_map.find(name);
@@ -96,7 +100,7 @@ uintmax_t FastReader::read_file( const char* fname ) {
 
 void FastReader::output( ofstream & myfile ) {
 	for ( auto it = line_stat_map.begin(); it != line_stat_map.end(); ++it )
-		myfile << it->first << "\t" << it->second.min_pos << "\t" << it->second.max_pos << std::endl; 
+		myfile << it->first << delimiter << it->second.min_pos << delimiter << it->second.max_pos << std::endl; 
 }
 
 void FastReader::write_file( string outfname ) {   
