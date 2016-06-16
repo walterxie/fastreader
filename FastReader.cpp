@@ -11,10 +11,10 @@ void FastReader::setDelimiter(const char* deli) {
 //   
 void FastReader::assign_line_stat_map(const char* start, const char* end) {
 	char* ps = const_cast<char*>(start);
-	char* pch = strchr(ps, atoi( delimiter.c_str() ));
+	char* pch = strnstr(ps, delimiter.c_str(), end - start);
 	string name = string(ps, pch);
 	ps = pch;
-	pch = strchr(pch+1, atoi( delimiter.c_str() ));
+	pch = strnstr(pch+1, delimiter.c_str(), end - start);
 	int p = atoi( ps );
 
 	auto it = line_stat_map.find(name);
@@ -61,29 +61,30 @@ uintmax_t FastReader::read_file( const char* fname ) {
 	this->fname = fname;
 
 	size_t length;
-    auto f = map_file(fname, length);    
+    auto lineBegin = map_file(fname, length);
     std::cout << "Open file : " << fname << std::endl;
     
-    auto l = f + length;
+    auto l = lineBegin + length;
     const char* end;
 
     // ignore 1st line, which is column names
-    auto l1 = static_cast<const char*>(memchr(f, '\n', l-f));
+    auto l1 = static_cast<const char*>(memchr(lineBegin, '\n', l - lineBegin));
     if (l1) {    
-		std::cout << "Ignore 1st line : " << string(f, l1) << std::endl;
-		f = l1 + 1;
+		std::cout << "Ignore 1st line : " << string(lineBegin, l1) << std::endl;
+		lineBegin = l1 + 1;
 	} else {
 		perror("Invalid file format, cannot find '\n' !");
 		handle_error("memchr");
 	}
 	
     uintmax_t n_line = 0;
-    while (f && f<l) {
-        end = static_cast<const char*>(memchr(f, '\n', l-f)); // end -> \n
+    while (lineBegin && lineBegin<l) {
+        end = static_cast<const char*>(memchr(lineBegin, '\n', l-lineBegin)); // end -> \n
+
         if (end) {           
-            // process line f ... end-1
-            assign_line_stat_map(f, end-1);
-            f = end + 1;
+            // process line lineBegin ... end-1
+            assign_line_stat_map(lineBegin, end-1);
+            lineBegin = end + 1;
             n_line++;
             // info every 1M lines 
             if (n_line % 100000000 == 0)
