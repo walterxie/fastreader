@@ -57,7 +57,7 @@ const char* FastReader::map_file(const char* fname, size_t& length) {
     return addr;
 }
 
-uintmax_t FastReader::read_file( const char* fname ) {   
+uintmax_t FastReader::read_file( const char* fname, bool hasheader /* = true */ ) {   
 	this->fname = fname;
 
 	size_t length;
@@ -67,14 +67,16 @@ uintmax_t FastReader::read_file( const char* fname ) {
     auto l = lineBegin + length;
     const char* end;
 
-    // ignore 1st line, which is column names
-    auto l1 = static_cast<const char*>(memchr(lineBegin, '\n', l - lineBegin));
-    if (l1) {    
-		std::cout << "Ignore 1st line : " << string(lineBegin, l1) << std::endl;
-		lineBegin = l1 + 1;
-	} else {
-		perror("Invalid file format, cannot find '\n' !");
-		handle_error("memchr");
+    if (hasheader) {
+		// ignore 1st line, which is column names
+		auto l1 = static_cast<const char*>(memchr(lineBegin, '\n', l - lineBegin));
+		if (l1) {    
+			std::cout << "Ignore 1st line : " << string(lineBegin, l1) << std::endl;
+			lineBegin = l1 + 1;
+		} else {
+			perror("Invalid file format, cannot find '\n' !");
+			handle_error("memchr");
+		}
 	}
 	
     uintmax_t n_line = 0;

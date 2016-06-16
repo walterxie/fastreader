@@ -1,6 +1,4 @@
-#include <algorithm>
 #include <iostream>
-#include <cstring>
 
 // for mmap:
 #include <sys/mman.h>
@@ -15,7 +13,7 @@ using namespace std;
 class FastReader {
 	public:
 		uintmax_t n_line = 0; // exclude 1st line
-		uintmax_t read_file( const char* fname );
+		uintmax_t read_file( const char* fname, bool hasheader = true );
 		void write_file( string outfname );
 		string getFName(void);
 		void setDelimiter(const char* deli);		
