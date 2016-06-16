@@ -12,11 +12,12 @@ using namespace std;
 
 class FastReader {
 	public:
-		uintmax_t n_line = 0; // exclude 1st line
+		uintmax_t n_line; // exclude 1st line
 		uintmax_t read_file( const char* fname, bool hasheader = true );
 		void write_file( string outfname );
 		string getFName(void);
-		void setDelimiter(const char* deli);		
+		void setDelimiter(const char* deli);
+		FastReader();		
 	protected:
 		const char* fname; // input file name and path
 		struct LineStat {
@@ -24,7 +25,7 @@ class FastReader {
 			int max_pos;
 		};
 		unordered_map <string, LineStat> line_stat_map;
-		string delimiter = "\t";		
+		string delimiter;		
 		const char* map_file( const char* fname, size_t& length );
 		void assign_line_stat_map( const char* start, const char* end );		
 		void output( ofstream & myfile );

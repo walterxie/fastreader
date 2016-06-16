@@ -1,4 +1,10 @@
+#include <string.h>
 #include "FastReader.h"
+
+FastReader::FastReader() {
+	n_line = 0; 
+	delimiter = "\t";
+}
 
 string FastReader::getFName(void) {
     return string(fname);
