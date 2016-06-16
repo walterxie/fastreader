@@ -11,7 +11,7 @@ More arguments to control this will be developed in future.
 ## complie
 
 ```C++
-g++ --std=c++0x -o FastReader main.cpp FastReader.cpp -Wall -g -O2
+g++ --std=c++0x -o FastReader main.cpp FastReader.cpp str_search.c -Wall -g -O2
 
 ./FastReader data/100reads.txt
 ```

@@ -1,5 +1,6 @@
 #include <string.h>
 #include "FastReader.h"
+#include "str_search.h"
 
 FastReader::FastReader() {
 	n_line = 0; 
@@ -17,10 +18,10 @@ void FastReader::setDelimiter(const char* deli) {
 //   
 void FastReader::assign_line_stat_map(const char* start, const char* end) {
 	char* ps = const_cast<char*>(start);
-	char* pch = strnstr(ps, delimiter.c_str(), end - start);
+	char* pch = mem_mem(ps, end, delimiter.c_str(), delimiter.length());
 	string name = string(ps, pch);
 	ps = pch;
-	pch = strnstr(pch+1, delimiter.c_str(), end - start);
+	pch = mem_mem(pch+1, end, delimiter.c_str(), delimiter.length());
 	int p = atoi( ps );
 
 	auto it = line_stat_map.find(name);
