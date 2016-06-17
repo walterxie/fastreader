@@ -1,7 +1,9 @@
 # fastreader
 Read big data in a delimited text format fast.
 
-The 1st version will consume more memory as file size increase. The 2nd version will solve this problem. 
+The current performance is to take about 8 or 9 minutes to process one input file (structured like [100reads.txt](data/100reads.txt)) 
+sized about 64G using Intel E7-2870 2.4GHz + 96G memory. 
+
 
 ## Input file
 
